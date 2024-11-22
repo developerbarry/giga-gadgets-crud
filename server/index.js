@@ -30,6 +30,14 @@ async function run() {
         const database = client.db("productsDB");
         const productsCollection = database.collection("products")
 
+
+        app.get('/products/:email', async(req, res) => {
+            const result = await productsCollection.find({ email: req.params.email }).toArray();
+            res.send(result);
+        })
+
+
+
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollection.insertOne(product);

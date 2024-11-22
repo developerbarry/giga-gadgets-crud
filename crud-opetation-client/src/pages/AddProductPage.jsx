@@ -9,6 +9,7 @@ import useAuth from "../hooks/useAuth.jsx";
 const AddProductPage = ({ update }) => {
   const { user } = useAuth() || {};
 
+  const {email} = user;
   const [selectedBrand, setSelectedBrand] = useState("Test");
 
   const handleChange = (e) => {
@@ -26,7 +27,7 @@ const AddProductPage = ({ update }) => {
     const rating = form.rating.value;
     const brand = form.brand.value;
 
-    const product = { name, image, price, type, rating, brand }
+    const product = { name, image, price, type, rating, brand, email }
     console.log(product)
     fetch('http://localhost:5000/products', {
       method: "POST",
