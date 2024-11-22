@@ -9,6 +9,41 @@ import useAuth from "../hooks/useAuth.jsx";
 const AddProductPage = ({ update }) => {
   const { user } = useAuth() || {};
 
+  const [selectedBrand, setSelectedBrand] = useState("Test");
+
+  const handleChange = (e) => {
+    setSelectedBrand(e.target.value);
+  };
+
+  const handleAddProduct = (e) => {
+    e.preventDefault()
+
+    const form = e.target;
+    const name = form.name.value;
+    const image = form.image.value;
+    const price = form.price.value;
+    const type = form.type.value;
+    const rating = form.rating.value;
+    const brand = form.brand.value;
+
+    const product = { name, image, price, type, rating, brand }
+    console.log(product)
+    fetch('http://localhost:5000/products', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(product)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if(data.insertedId){
+          toast.success("Product Added")
+        }
+      })
+
+  }
 
 
   return (
@@ -29,7 +64,7 @@ const AddProductPage = ({ update }) => {
           </p>
         </div>
         {/* form */}
-        <form>
+        <form onSubmit={handleAddProduct}>
           <div className="flex gap-8 ">
             <div className="flex-1">
               <label className="block mb-2 dark:text-white" htmlFor="name">
@@ -53,19 +88,14 @@ const AddProductPage = ({ update }) => {
                 name="brand"
                 id="brand"
                 className="w-full p-2 border rounded-md focus:outline-[#FF497C]"
-                type="text"
-                placeholder="Select Brand"
+                value={selectedBrand}
+                onChange={handleChange}
               >
-                <option value="Test" selected>
-                  Test
-                </option>
-                <option value="Test2" selected>
-                  Test2
-                </option>
-                <option value="Test3" selected>
-                  Test3
-                </option>
+                <option value="Test">Test</option>
+                <option value="Test2">Test2</option>
+                <option value="Test3">Test3</option>
               </select>
+
 
               <label
                 className="block mt-4 mb-2 dark:text-white"
@@ -129,8 +159,8 @@ const AddProductPage = ({ update }) => {
             value="Add Product"
           />
         </form>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 
