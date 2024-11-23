@@ -9,12 +9,12 @@ import useAuth from "../hooks/useAuth.jsx";
 const AddProductPage = ({ update }) => {
 
   const { user } = useAuth() || {};
-  const [editProduct, setEditProduct] = useState(null)
+  const [editProduct, setEditProduct] = useState()
 
-  const {id} = useParams();
-  console.log(id)
+  const data = useLoaderData()
+  console.log(data)
 
-  const {email} = user;
+  const { email } = user;
   const [selectedBrand, setSelectedBrand] = useState("Test");
 
   const handleChange = (e) => {
@@ -44,21 +44,23 @@ const AddProductPage = ({ update }) => {
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        if(data.insertedId){
+        if (data.insertedId) {
           toast.success("Product Added")
         }
       })
 
   }
 
-  useEffect(() => {
-    fetch(`http://localhost:5000/products/${id}`)
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
-    })
-  },[id])
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/products/${id}`)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data)
+  //       // setEditProduct(data)
+  //     })
+  // }, [id])
 
+  
 
   return (
     <div className="gadgetContainer pt-10">
@@ -90,6 +92,7 @@ const AddProductPage = ({ update }) => {
                 placeholder="Name"
                 id="name"
                 name="name"
+                // defaultValue={editProduct && editProduct.name}
               />
 
               <label
@@ -170,8 +173,8 @@ const AddProductPage = ({ update }) => {
           <input
             className="px-4 w-full py-2 mt-4 rounded hover:bg-[#ab3154]  bg-[#FF497C] duration-200 text-white cursor-pointer font-semibold"
             type="submit"
-            value={update ? "Update Product": "Add Product"}
-            // update Add Product
+            value={update ? "Update Product" : "Add Product"}
+          // update Add Product
           />
         </form>
       </div >

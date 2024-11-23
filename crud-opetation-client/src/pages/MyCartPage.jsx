@@ -11,7 +11,7 @@ const MyCartPage = () => {
   const [item, setItem] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:5000/products/${user?.email}`)
+    fetch(`http://localhost:5000/products/email/${user?.email}`)
       .then(res => res.json())
       .then(data => {
         console.log(data)

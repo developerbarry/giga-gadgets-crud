@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json())
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.iam7h.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -30,13 +30,29 @@ async function run() {
         const database = client.db("productsDB");
         const productsCollection = database.collection("products")
 
-        
+        app.get('/products', async (req, res) => {
+            const result = await productsCollection.find().toArray();
+            res.send(result);
+        });
 
-        app.get('/products/:email', async(req, res) => {
+
+        // app.get('/products/:email', async (req, res) => {
+        //     const result = await productsCollection.find({ email: req.params.email }).toArray();
+        //     res.send(result);
+        // })
+
+        app.get('/products/email/:email', async (req, res) => {
             const result = await productsCollection.find({ email: req.params.email }).toArray();
             res.send(result);
-        })
+        });
+        
 
+        app.get('/products/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: new ObjectId(id)};
+            const result = await productsCollection.findOne(query);
+            res.send(result)
+        })
 
         app.post('/products', async (req, res) => {
             const product = req.body;
