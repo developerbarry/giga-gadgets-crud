@@ -1,10 +1,27 @@
+import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 
 
-const ProductCard = ({ brandPage, item, p, mycard }) => {
+const ProductCard = ({ brandPage, item, products , p, mycard, setProducts  }) => {
   const navigate = useNavigate();
   const { _id, productName, brandName, price, image, type, rating } = item || {}
   // const brandPage = true
+
+  const handleDelete = (id) => {
+    console.log(id)
+    fetch(`http://localhost:5000/products/${id}`, {
+      method: "DELETE"
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      if (data.deletedCount > 0){
+        toast.success("Delete Successfully")
+        const exsit = products.filter(i => i._id !== id);
+        setProducts(exsit)
+      }
+    })
+  }
   return (
     <div>
       <div className="">
@@ -92,7 +109,9 @@ const ProductCard = ({ brandPage, item, p, mycard }) => {
                   mycard ? (
                     <div className="flex justify-between w-full">
                       <Link to={`/product/update/${p._id}`} className="px-3 py-1 text-white bg-[#1F2937]">Edit</Link>
-                      <button className="px-3 py-1 text-white bg-[#1F2937]">Delete</button>
+                      <button
+                        onClick={() => handleDelete(p._id)}
+                        className="px-3 py-1 text-white bg-[#1F2937]">Delete</button>
                     </div>
                   ) :
                     <button onClick={() => navigate(`/products/${_id}`)} className="transition flex-1 ease-in duration-300 bg-gray-700 hover:bg-gray-800 border hover:border-gray-500 border-gray-700 hover:text-white  hover:shadow-lg text-white rounded py-2 md:py-1 text-center  flex justify-center items-center px-4 font-medium text-sm">

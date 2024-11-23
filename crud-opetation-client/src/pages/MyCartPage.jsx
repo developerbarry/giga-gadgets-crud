@@ -8,14 +8,14 @@ import ProductCard from "../components/Cards/ProductCard";
 
 const MyCartPage = () => {
   const { user } = useAuth() || {};
-  const [item, setItem] = useState([])
+  const [products, setProducts] = useState([])
 
   useEffect(() => {
     fetch(`http://localhost:5000/products/email/${user?.email}`)
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        setItem(data)
+        setProducts(data)
       })
   }, [user])
 
@@ -24,7 +24,7 @@ const MyCartPage = () => {
       <div className="gadgetContainer pt-10">
         <div className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
           {
-            item?.map((p, index) => <ProductCard mycard={true} p={p} key={index} />)
+            products?.map((p, index) => <ProductCard products={products} setProducts={setProducts} mycard={true} p={p} key={index} />)
           }
         </div>
       </div>
