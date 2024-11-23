@@ -40,7 +40,7 @@ const Route = createBrowserRouter([
             <AddProductPage update={true} />
           </ProtectedRoute>
         ),
-        loader: ({params}) => fetch(`http://localhost:5000/products/${params.id}`)
+        loader: ({params}) => fetch(`https://giga-gadgets-server-crud.vercel.app/products/${params.id}`)
         // loader: oneProductLoader,
       },
       {

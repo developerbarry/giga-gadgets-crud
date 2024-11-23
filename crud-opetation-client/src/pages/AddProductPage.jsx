@@ -15,7 +15,7 @@ const AddProductPage = ({ update }) => {
   // const { id } = useParams()
   // console.log(id)
   // useEffect(() => {
-  //   fetch(`http://localhost:5000/products/${id}`)
+  //   fetch(`https://giga-gadgets-server-crud.vercel.app/${id}`)
   //     .then(res => res.json())
   //     .then(data => {
   //       console.log(data)
@@ -47,7 +47,7 @@ const AddProductPage = ({ update }) => {
 
     const product = { name, image, price, type, rating, brand, email }
     console.log(product)
-    fetch('http://localhost:5000/products', {
+    fetch('https://giga-gadgets-server-crud.vercel.app/products', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -78,7 +78,7 @@ const AddProductPage = ({ update }) => {
     const UpdateProduct = { name, image, price, type, rating, brand, email }
     console.log(UpdateProduct)
 
-    fetch(`http://localhost:5000/products/${editProduct._id}`, {
+    fetch(`https://giga-gadgets-server-crud.vercel.app/products/${editProduct._id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"

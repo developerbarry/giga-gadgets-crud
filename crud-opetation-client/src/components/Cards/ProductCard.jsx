@@ -9,7 +9,7 @@ const ProductCard = ({ brandPage, item, products , p, mycard, setProducts  }) =>
 
   const handleDelete = (id) => {
     console.log(id)
-    fetch(`http://localhost:5000/products/${id}`, {
+    fetch(`https://giga-gadgets-server-crud.vercel.app/products/${id}`, {
       method: "DELETE"
     })
     .then(res => res.json())

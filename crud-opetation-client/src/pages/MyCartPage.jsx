@@ -11,7 +11,7 @@ const MyCartPage = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    fetch(`http://localhost:5000/products/email/${user?.email}`)
+    fetch(`https://giga-gadgets-server-crud.vercel.app/products/email/${user?.email}`)
       .then(res => res.json())
       .then(data => {
         console.log(data)
