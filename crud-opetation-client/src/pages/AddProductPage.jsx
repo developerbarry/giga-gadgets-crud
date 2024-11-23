@@ -2,12 +2,17 @@ import { useEffect, useState } from "react";
 import { baseURL } from "../utilitis/Url.js";
 import toast from "react-hot-toast";
 import Spinner from "../components/Spinner.jsx";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useParams } from "react-router-dom";
 import useAuth from "../hooks/useAuth.jsx";
 
 // import baseURL from '../utilitis/url.js'
 const AddProductPage = ({ update }) => {
+
   const { user } = useAuth() || {};
+  const [editProduct, setEditProduct] = useState(null)
+
+  const {id} = useParams();
+  console.log(id)
 
   const {email} = user;
   const [selectedBrand, setSelectedBrand] = useState("Test");
@@ -45,6 +50,14 @@ const AddProductPage = ({ update }) => {
       })
 
   }
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/products/${id}`)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+    })
+  },[id])
 
 
   return (
@@ -157,7 +170,8 @@ const AddProductPage = ({ update }) => {
           <input
             className="px-4 w-full py-2 mt-4 rounded hover:bg-[#ab3154]  bg-[#FF497C] duration-200 text-white cursor-pointer font-semibold"
             type="submit"
-            value="Add Product"
+            value={update ? "Update Product": "Add Product"}
+            // update Add Product
           />
         </form>
       </div >

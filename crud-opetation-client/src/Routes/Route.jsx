@@ -40,7 +40,7 @@ const Route = createBrowserRouter([
             <AddProductPage update={true} />
           </ProtectedRoute>
         ),
-        loader: oneProductLoader,
+        // loader: oneProductLoader,
       },
       {
         path: "/products/:id",

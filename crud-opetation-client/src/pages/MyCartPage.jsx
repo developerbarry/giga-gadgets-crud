@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { baseURL } from "../utilitis/Url";
 import toast from "react-hot-toast";
 import Spinner from "../components/Spinner";
+import ProductCard from "../components/Cards/ProductCard";
 
 const MyCartPage = () => {
   const { user } = useAuth() || {};
@@ -19,16 +20,15 @@ const MyCartPage = () => {
   }, [user])
 
   return (
-    <div className="gadgetContainer pt-10">
-      {
-        item?.map(p => (
-          <div key={p._id} className="mb-5 border">
-            <h1>{p.name}</h1>
-            <p>{p.email}</p>
-          </div>
-        ))
-      }
-    </div>
+    <section>
+      <div className="gadgetContainer pt-10">
+        <div className="grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-4">
+          {
+            item?.map((p, index) => <ProductCard mycard={true} p={p} key={index} />)
+          }
+        </div>
+      </div>
+    </section>
   );
 };
 
