@@ -75,8 +75,24 @@ const AddProductPage = ({ update }) => {
     const rating = form.rating.value;
     const brand = form.brand.value;
 
-    const product = { name, image, price, type, rating, brand, email }
-    console.log(product)
+    const UpdateProduct = { name, image, price, type, rating, brand, email }
+    console.log(UpdateProduct)
+
+    fetch(`http://localhost:5000/products/${editProduct._id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(UpdateProduct)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        if(data.modifiedCount){
+          toast.success('Update Successfully')
+        }
+      })
+
   }
 
 

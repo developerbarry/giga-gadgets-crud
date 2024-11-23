@@ -45,11 +45,11 @@ async function run() {
             const result = await productsCollection.find({ email: req.params.email }).toArray();
             res.send(result);
         });
-        
 
-        app.get('/products/:id', async(req, res) => {
+
+        app.get('/products/:id', async (req, res) => {
             const id = req.params.id;
-            const query = {_id: new ObjectId(id)};
+            const query = { _id: new ObjectId(id) };
             const result = await productsCollection.findOne(query);
             res.send(result)
         })
@@ -57,6 +57,27 @@ async function run() {
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollection.insertOne(product);
+            res.send(result)
+        })
+
+        app.put('/products/:id', async (req, res) => {
+            const updateProduct = req.body;
+            const id = req.params.id;
+            console.log(updateProduct)
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updatedDoc = {
+                $set: {
+                    name: updateProduct.name,
+                    image: updateProduct.image,
+                    price: updateProduct.price,
+                    type: updateProduct.type,
+                    rating: updateProduct.rating,
+                    brand: updateProduct.brand,
+                    email: updateProduct.email
+                }
+            }
+            const result = await productsCollection.updateOne(filter, updatedDoc, options);
             res.send(result)
         })
         // Send a ping to confirm a successful connection
