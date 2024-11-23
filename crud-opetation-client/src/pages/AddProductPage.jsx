@@ -9,10 +9,23 @@ import useAuth from "../hooks/useAuth.jsx";
 const AddProductPage = ({ update }) => {
 
   const { user } = useAuth() || {};
-  const [editProduct, setEditProduct] = useState()
-
   const data = useLoaderData()
-  console.log(data)
+  const [editProduct, setEditProduct] = useState(data)
+
+  // const { id } = useParams()
+  // console.log(id)
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/products/${id}`)
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       console.log(data)
+  //       setEditProduct(data)
+  //     })
+  // }, [id])
+
+
+
+
 
   const { email } = user;
   const [selectedBrand, setSelectedBrand] = useState("Test");
@@ -51,16 +64,22 @@ const AddProductPage = ({ update }) => {
 
   }
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:5000/products/${id}`)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       console.log(data)
-  //       // setEditProduct(data)
-  //     })
-  // }, [id])
+  const handleUpdate = (e) => {
+    e.preventDefault()
 
-  
+    const form = e.target;
+    const name = form.name.value;
+    const image = form.image.value;
+    const price = form.price.value;
+    const type = form.type.value;
+    const rating = form.rating.value;
+    const brand = form.brand.value;
+
+    const product = { name, image, price, type, rating, brand, email }
+    console.log(product)
+  }
+
+
 
   return (
     <div className="gadgetContainer pt-10">
@@ -80,7 +99,7 @@ const AddProductPage = ({ update }) => {
           </p>
         </div>
         {/* form */}
-        <form onSubmit={handleAddProduct}>
+        <form onSubmit={editProduct ? handleUpdate : handleAddProduct}>
           <div className="flex gap-8 ">
             <div className="flex-1">
               <label className="block mb-2 dark:text-white" htmlFor="name">
@@ -92,7 +111,7 @@ const AddProductPage = ({ update }) => {
                 placeholder="Name"
                 id="name"
                 name="name"
-                // defaultValue={editProduct && editProduct.name}
+                defaultValue={editProduct ? editProduct.name : ""}
               />
 
               <label
@@ -105,7 +124,7 @@ const AddProductPage = ({ update }) => {
                 name="brand"
                 id="brand"
                 className="w-full p-2 border rounded-md focus:outline-[#FF497C]"
-                value={selectedBrand}
+                value={editProduct ? editProduct.brand : selectedBrand}
                 onChange={handleChange}
               >
                 <option value="Test">Test</option>
@@ -126,6 +145,7 @@ const AddProductPage = ({ update }) => {
                 placeholder="Enter Price"
                 id="Price"
                 name="price"
+                defaultValue={editProduct ? editProduct.price : ""}
               />
             </div>
             {/* Right side */}
@@ -139,6 +159,7 @@ const AddProductPage = ({ update }) => {
                 placeholder="Enter Image URL"
                 id="image"
                 name="image"
+                defaultValue={editProduct ? editProduct.image : ""}
               />
               <label className="block mb-2 mt-4 dark:text-white" htmlFor="type">
                 Type
@@ -149,6 +170,7 @@ const AddProductPage = ({ update }) => {
                 placeholder="Enter type"
                 id="type"
                 name="type"
+                defaultValue={editProduct ? editProduct.type : ""}
               />
 
               <label
@@ -166,6 +188,7 @@ const AddProductPage = ({ update }) => {
                 placeholder="Enter Rating"
                 id="rating"
                 name="rating"
+                defaultValue={editProduct ? editProduct.rating : ""}
               />
             </div>
           </div>
